@@ -1,0 +1,25 @@
+Here's a simple Python implementation of a Proof-of-Work algorithm, which is used in many blockchain systems;
+import hashlib
+import time
+
+max_nonce = 2 ** 32  # 4 billion
+
+def proof_of_work(block_data, target):
+    for nonce in range(max_nonce):
+        data = f"{block_data}{nonce}".encode()
+        hash_result = hashlib.sha256(data).hexdigest()
+        if hash_result < target:
+            print(f"Success with nonce {nonce}")
+            print(f"Hash is {hash_result}")
+            return (hash_result, nonce)
+
+    print("Failed after {max_nonce} (MAX_NONCE) tries")
+    return None
+
+block_data = "COMSM0010cloud"
+target = "0000000" + "f" * 57  # Difficulty
+
+start_time = time.time()
+print("Start mining")
+proof_of_work(block_data, target)
+print("End mining. Mining took: %.2fs" % (time.time() - start_time))
